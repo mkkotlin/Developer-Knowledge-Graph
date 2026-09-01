@@ -5,5 +5,6 @@ from app.models.technology import Technology
 from app.models.technology_category import TechnologyCategory
 from app.models.project import Project
 from app.models.project_technology import ProjectTechnology
+from app.models.project_skill import ProjectSkill
 
-__all__ = ["User", "Skill", "UserSkill", "TechnologyCategory", "Technology", "ProjectTechnology", "Project"]
+__all__ = ["User", "Skill", "UserSkill", "TechnologyCategory", "Technology", "ProjectTechnology", "Project", "ProjectSkill"]
