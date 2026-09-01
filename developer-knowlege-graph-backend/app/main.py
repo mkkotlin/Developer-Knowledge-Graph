@@ -1,14 +1,27 @@
 from fastapi import FastAPI
-from app.graphql.schema import schema
 from strawberry.fastapi import GraphQLRouter
 
+from app.graphql.context import get_context
+from app.graphql.schema import schema
 
-app = FastAPI(title="Developer Knowledge Graph", version="0.0.1")
 
-graphql_app = GraphQLRouter(schema)
+app = FastAPI(
+    title="Developer Knowledge Graph",
+    version="0.1.0",
+)
 
-app.include_router(graphql_app, prefix="/graphql")
+
+graphql_app = GraphQLRouter(
+    schema,
+    context_getter=get_context,
+)
+
+app.include_router(
+    graphql_app,
+    prefix="/graphql",
+)
+
 
 @app.get("/health")
 def health_check():
-    return {"status":"ok", "database":"connected"}
+    return {"status": "ok"}

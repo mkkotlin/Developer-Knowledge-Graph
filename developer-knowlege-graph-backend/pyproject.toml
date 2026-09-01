@@ -10,6 +10,7 @@ dependencies = [
     "sqlalchemy",
     "alembic",
     "psycopg[binary]",
+    "asyncpg",
     "python-dotenv",
 ]
 
