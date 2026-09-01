@@ -2,8 +2,9 @@ import strawberry
 from strawberry.types import Info
 from sqlalchemy import select
 
+from app.graphql.auth import require_user
+from app.graphql.permissions import require_project_owner
 from app.graphql.types.developer import SkillType
-from app.models.project import Project
 from app.models.project_skill import ProjectSkill
 from app.models.skill import Skill
 from app.graphql.utils import maybe_await
@@ -27,11 +28,15 @@ class ProjectSkillMutation:
                     "Proficiency must be between 1 and 5"
                 )
 
-        db = info.context.db
-        project = await maybe_await(db.get(Project, project_id))
+        user_id = require_user(info)
 
-        if project is None:
-            raise ValueError("Project not found")
+        db = info.context.db
+
+        project = await require_project_owner(
+            db=db,
+            user_id=user_id,
+            project_id=project_id,
+        )
 
         skill = await maybe_await(db.get(Skill, skill_id))
 
@@ -71,5 +76,6 @@ class ProjectSkillMutation:
                 proficiency_demonstrated or 0
             ),
         )
+
 
 
