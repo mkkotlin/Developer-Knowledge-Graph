@@ -23,4 +23,3 @@ async def require_project_owner(
         raise AuthorizationError("You do not own this project")
 
     return project
-
